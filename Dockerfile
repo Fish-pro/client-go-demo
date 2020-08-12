@@ -11,4 +11,4 @@ COPY --from=build-env /go/appserver /appserver
 
 ENV TZ Asia/Shanghai
 EXPOSE 8989
-CMD ["/client-go-demo"]
+CMD ["/appserver"]
