@@ -1,7 +1,7 @@
 # client-go demo 
 just one cluster
 # get cluster-info
-```go
+```shell script
  1008  ps | grep kube-apiserver
  1009  ps aux | grep kube-apiserver
  1010  cd /proc/2979/root/etc/ssl/
@@ -33,4 +33,8 @@ just one cluster
  1036  kubectl --kubeconfig /tmp/config get no
  1037  kubectl config view
  1038  cat /tmp/config
+```
+# 单元测试
+```shell script
+go test -bench=. ./pkg/test
 ```
