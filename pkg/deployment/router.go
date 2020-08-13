@@ -14,5 +14,14 @@ func DeployRouter(client *kubernetes.Clientset, c *gin.RouterGroup) {
 		dRouter.GET("/:name", func(c *gin.Context) {
 			GetDeployHandler(client, c)
 		})
+		dRouter.POST("", func(c *gin.Context) {
+			CreateDeployHandler(client, c)
+		})
+		dRouter.PUT("/:name", func(c *gin.Context) {
+			UpdateDeployHandler(client, c)
+		})
+		dRouter.DELETE("/:name", func(c *gin.Context) {
+			DeleteDeployHandler(client, c)
+		})
 	}
 }

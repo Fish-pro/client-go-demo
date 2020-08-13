@@ -2,6 +2,7 @@ package main
 
 import (
 	"client-go-demo/pkg/deployment"
+	"client-go-demo/pkg/node"
 	"github.com/gin-gonic/gin"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
@@ -28,6 +29,9 @@ func main() {
 
 	// deployment router group
 	deployment.DeployRouter(client, v1Router)
+
+	// node router group
+	node.NodeRouter(client, v1Router)
 
 	router.Run("0.0.0.0:9090")
 }
