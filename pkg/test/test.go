@@ -51,7 +51,7 @@ func mockApi(t *testing.T, method, path string, body interface{}) *httptest.Resp
 
 	require.True(t, w.Code < 400)
 
-	fmt.Println(w)
+	// fmt.Println(w)
 
 	return w
 }
