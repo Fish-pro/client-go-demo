@@ -10,6 +10,7 @@ require (
 	github.com/stretchr/testify v1.6.1
 	golang.org/x/sys v0.0.0-20200810151505-1b9f1253b3ed // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
+	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	k8s.io/api v0.17.0
 	k8s.io/apimachinery v0.17.0

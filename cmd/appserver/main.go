@@ -1,14 +1,14 @@
 package main
 
 import (
-	"client-go-demo/config"
-	"github.com/gin-gonic/gin"
+	. "client-go-demo/config"
+	"client-go-demo/pkg/middleware"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 )
 
 func main() {
-	router := gin.Default()
+	router := middleware.SetupGin()
 
 	conf, err := clientcmd.BuildConfigFromFlags(
 		"https://10.6.124.52:16443",
@@ -20,7 +20,7 @@ func main() {
 		panic("that maybe have problem")
 	}
 
-	config.Register(router, client)
+	Register(router, client)
 
 	router.Run("0.0.0.0:9090")
 }

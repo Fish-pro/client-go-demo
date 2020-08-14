@@ -1,6 +1,8 @@
 package node
 
 import (
+	"client-go-demo/pkg/middleware"
+	. "client-go-demo/pkg/util"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/core/v1"
@@ -35,6 +37,7 @@ func GetNodeHandler(client *kubernetes.Clientset, c *gin.Context) {
 
 	node, err := client.CoreV1().Nodes().Get(name, metav1.GetOptions{})
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "get node error:%s", err.Error())
 		c.JSON(500, "get node error")
 		return
 	}
@@ -52,6 +55,7 @@ func ListPodsOfNodeHandler(client *kubernetes.Clientset, c *gin.Context) {
 
 	podList, err := client.CoreV1().Pods(metav1.NamespaceAll).List(opts)
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "get pods error:%s", err.Error())
 		c.JSON(500, "get node pods error")
 		return
 	}
@@ -72,12 +76,14 @@ func UpdateNodeHandler(client *kubernetes.Clientset, c *gin.Context) {
 	updateNode := &v1.Node{}
 	err := c.BindJSON(updateNode)
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "parse update body error:%s", err.Error())
 		c.JSON(500, "get body error")
 		return
 	}
 
 	node, err := client.CoreV1().Nodes().Get(name, metav1.GetOptions{})
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "failed to get node:%s", err.Error())
 		c.JSON(500, "fail to get node")
 		return
 	}
@@ -86,6 +92,7 @@ func UpdateNodeHandler(client *kubernetes.Clientset, c *gin.Context) {
 
 	nodeInfo, err := client.CoreV1().Nodes().Update(updateNode)
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "failed to update node:%s", err.Error())
 		c.JSON(500, "failed to update node")
 		return
 	}
@@ -98,6 +105,7 @@ func ListEventsOfNodeHandler(client *kubernetes.Clientset, c *gin.Context) {
 
 	node, err := client.CoreV1().Nodes().Get(name, metav1.GetOptions{})
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "fetch node error:%s", err.Error())
 		c.JSON(500, "fetch node error")
 		return
 	}
@@ -111,6 +119,7 @@ func ListEventsOfNodeHandler(client *kubernetes.Clientset, c *gin.Context) {
 
 	eventList, err := client.CoreV1().Events(metav1.NamespaceAll).Search(scheme.Scheme, ref)
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "failed to get events:%s", err.Error())
 		c.JSON(500, "failed to get events")
 		return
 	}

@@ -1,6 +1,8 @@
 package deployment
 
 import (
+	"client-go-demo/pkg/middleware"
+	. "client-go-demo/pkg/util"
 	"github.com/gin-gonic/gin"
 	v1 "k8s.io/api/apps/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -13,6 +15,7 @@ func ListDeployHandler(client *kubernetes.Clientset, c *gin.Context) {
 
 	deploys, err := client.AppsV1().Deployments(namespace).List(metav1.ListOptions{})
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "get deploys error: %s", err.Error())
 		c.JSON(500, "get deploys error")
 		return
 	}
@@ -34,6 +37,7 @@ func GetDeployHandler(client *kubernetes.Clientset, c *gin.Context) {
 
 	deploy, err := client.AppsV1().Deployments(namespace).Get(name, metav1.GetOptions{})
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "get deploy error:%s", err.Error())
 		c.JSON(500, "get deploy error")
 		return
 	}
@@ -50,12 +54,14 @@ func CreateDeployHandler(client *kubernetes.Clientset, c *gin.Context) {
 
 	var deployInfo v1.Deployment
 	if err := c.BindJSON(deployInfo); err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "parse create deploy body error")
 		c.JSON(400, "body error")
 		return
 	}
 
 	deploy, err := client.AppsV1().Deployments(namespace).Create(&deployInfo)
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "create deploy error:%s", err.Error())
 		c.JSON(500, "create deploy error")
 		return
 	}
@@ -69,18 +75,21 @@ func UpdateDeployHandler(client *kubernetes.Clientset, c *gin.Context) {
 	name := c.Param("name")
 
 	if name == "" {
+		Logger.Errorf(middleware.GetReqId(c), "name can't be none")
 		c.JSON(400, "name can't be none")
 		return
 	}
 
 	var deployInfo v1.Deployment
 	if err := c.BindJSON(&deployInfo); err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "parse update deploy body error")
 		c.JSON(400, "body error")
 		return
 	}
 
 	deploy, err := client.AppsV1().Deployments(namespace).Get(name, metav1.GetOptions{})
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "get deploy error:%s", err.Error())
 		c.JSON(500, "get deploy error")
 		return
 	}
@@ -88,6 +97,7 @@ func UpdateDeployHandler(client *kubernetes.Clientset, c *gin.Context) {
 	deployInfo.ResourceVersion = deploy.ResourceVersion
 	resultDeployment, err := client.AppsV1().Deployments(namespace).Update(&deployInfo)
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "update deploy error:%s", err.Error())
 		c.JSON(500, "update deploy error")
 		return
 	}
@@ -103,6 +113,7 @@ func DeleteDeployHandler(client *kubernetes.Clientset, c *gin.Context) {
 	namespace := c.Query("namespace")
 	name := c.Query("name")
 	if name == "" {
+		Logger.Errorf(middleware.GetReqId(c), "name can't be none")
 		c.JSON(400, "name can't be none")
 		return
 	}
@@ -112,6 +123,7 @@ func DeleteDeployHandler(client *kubernetes.Clientset, c *gin.Context) {
 		PropagationPolicy: &policy,
 	})
 	if err != nil {
+		Logger.Errorf(middleware.GetReqId(c), "delete deploy error:%s", err.Error())
 		c.JSON(500, "delete deploy error")
 		return
 	}

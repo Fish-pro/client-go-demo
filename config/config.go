@@ -1,13 +1,14 @@
 package config
 
 import (
-	"client-go-demo/pkg/deployment"
-	"client-go-demo/pkg/node"
+	"client-go-demo/pkg/app/deployment"
+	"client-go-demo/pkg/app/node"
 	"github.com/gin-gonic/gin"
 	"k8s.io/client-go/kubernetes"
 )
 
 func Register(r *gin.Engine, client *kubernetes.Clientset) {
+
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, "pong")
 	})
