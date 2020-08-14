@@ -25,10 +25,10 @@ func Register(r *gin.Engine, client *kubernetes.Clientset) {
 
 	v1Router := r.Group("/v1")
 
-	// deployment router group
+	// deployment app
 	deployment.DeployRouter(client, v1Router)
 
-	// node router group
+	// node app
 	node.NodeRouter(client, v1Router)
 
 }
