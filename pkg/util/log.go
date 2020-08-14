@@ -32,7 +32,7 @@ type ConsoleLog struct {
 }
 
 var Logger = ConsoleLog{
-	Level: LogLevelWarn,
+	Level: LoglevelInfo,
 }
 
 func (l *ConsoleLog) SetLogLevel(level int) {

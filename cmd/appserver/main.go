@@ -3,6 +3,7 @@ package main
 import (
 	. "client-go-demo/config"
 	"client-go-demo/pkg/middleware"
+	. "client-go-demo/pkg/util"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 )
@@ -19,6 +20,8 @@ func main() {
 	if err != nil {
 		panic("that maybe have problem")
 	}
+
+	Logger.SetLogLevel(LoglevelInfo)
 
 	Register(router, client)
 
