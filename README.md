@@ -1,6 +1,7 @@
 # client-go demo 
-just one cluster
+just `one` cluster
 # get cluster-info
+if you have a cluster,you can get cluster information by follow method
 ```shell script
  1008  ps | grep kube-apiserver
  1009  ps aux | grep kube-apiserver
@@ -34,7 +35,7 @@ just one cluster
  1037  kubectl config view
  1038  cat /tmp/config
 ```
-# 单元测试
+# unit test
 ```shell script
 go test -bench=. ./pkg/test
 ```
