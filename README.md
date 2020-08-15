@@ -1,7 +1,7 @@
 # client-go demo 
-just `one` cluster
-# get cluster-info
-if you have a cluster,you can get cluster information by follow method
+It's a client-go demo by golang, only a single cluster is supported
+## get cluster-info
+If you already have a cluster, you can get cluster connection information in the following ways
 ```shell script
  1008  ps | grep kube-apiserver
  1009  ps aux | grep kube-apiserver
@@ -35,7 +35,8 @@ if you have a cluster,you can get cluster information by follow method
  1037  kubectl config view
  1038  cat /tmp/config
 ```
-# unit test
+## unit test
+The test only contains GET method
 ```shell script
 go test -bench=. ./pkg/test
 ```
