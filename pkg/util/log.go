@@ -35,8 +35,21 @@ var Logger = ConsoleLog{
 	Level: LoglevelInfo,
 }
 
-func (l *ConsoleLog) SetLogLevel(level int) {
-	l.Level = level
+func (l *ConsoleLog) SetLogLevel(level string) {
+	switch level {
+	case "DEBUG":
+		l.Level = LogLevelDebug
+	case "INFO":
+		l.Level = LoglevelInfo
+	case "WARN":
+		l.Level = LogLevelWarn
+	case "ERROR":
+		l.Level = LogLevelError
+	case "OFF":
+		l.Level = LogLevelOff
+	default:
+		l.Level = LoglevelInfo
+	}
 }
 
 func (l *ConsoleLog) Debug(reqId string, ps ...interface{}) {

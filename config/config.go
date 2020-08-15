@@ -8,7 +8,34 @@ import (
 	"client-go-demo/pkg/util"
 	"github.com/gin-gonic/gin"
 	"k8s.io/client-go/kubernetes"
+	"os"
 )
+
+type ServerConfig struct {
+	Host                 string
+	Port                 string
+	MasterUrl            string
+	KubernetesConfigPath string
+	LogLevel             string
+}
+
+func getEnvOrDefault(key string, def string) string {
+	if val, ok := os.LookupEnv(key); ok {
+		return val
+	} else {
+		return def
+	}
+}
+
+func GetConfigFromENV() *ServerConfig {
+	return &ServerConfig{
+		Host:                 getEnvOrDefault("HTTP_HOST", "0.0.0.0"),
+		Port:                 getEnvOrDefault("HTTP_PORT", "9090"),
+		MasterUrl:            getEnvOrDefault("MASTER_URL", "https://10.6.124.52:16443"),
+		KubernetesConfigPath: getEnvOrDefault("CLUSTER_CONFIG_PATH", "/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/52.yaml"),
+		LogLevel:             getEnvOrDefault("LOG_LEVEL", "INFO"),
+	}
+}
 
 func Register(r *gin.Engine, client *kubernetes.Clientset) {
 
