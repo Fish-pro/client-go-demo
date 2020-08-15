@@ -4,7 +4,6 @@ import (
 	. "client-go-demo/config"
 	"client-go-demo/pkg/middleware"
 	. "client-go-demo/pkg/util"
-	"fmt"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
 	"os"
@@ -35,5 +34,9 @@ func main() {
 
 	Register(router, client)
 
-	router.Run(fmt.Sprintf("%s:%s", conf.Host, conf.Port))
+	err = router.Run(conf.GetServerAddr())
+	if err != nil {
+		Logger.Errorf("main", "run server error:%s", err.Error())
+		os.Exit(1)
+	}
 }

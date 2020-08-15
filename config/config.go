@@ -6,6 +6,7 @@ import (
 	"client-go-demo/pkg/app/service"
 	"client-go-demo/pkg/middleware"
 	"client-go-demo/pkg/util"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"k8s.io/client-go/kubernetes"
 	"os"
@@ -17,6 +18,10 @@ type ServerConfig struct {
 	MasterUrl            string
 	KubernetesConfigPath string
 	LogLevel             string
+}
+
+func (s *ServerConfig) GetServerAddr() string {
+	return fmt.Sprintf("%s:%s", s.Host, s.Port)
 }
 
 func getEnvOrDefault(key string, def string) string {
