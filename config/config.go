@@ -3,6 +3,7 @@ package config
 import (
 	"client-go-demo/pkg/app/deployment"
 	"client-go-demo/pkg/app/node"
+	"client-go-demo/pkg/app/service"
 	"client-go-demo/pkg/middleware"
 	"client-go-demo/pkg/util"
 	"github.com/gin-gonic/gin"
@@ -30,5 +31,8 @@ func Register(r *gin.Engine, client *kubernetes.Clientset) {
 
 	// node app
 	node.NodeRouter(client, v1Router)
+
+	// service app
+	service.SvcRouter(client, v1Router)
 
 }
