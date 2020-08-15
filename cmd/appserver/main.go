@@ -4,8 +4,6 @@ import (
 	. "client-go-demo/config"
 	"client-go-demo/pkg/middleware"
 	. "client-go-demo/pkg/util"
-	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/tools/clientcmd"
 	"os"
 )
 
@@ -16,19 +14,9 @@ func main() {
 
 	Logger.SetLogLevel(conf.LogLevel)
 
-	clusterConfig, err := clientcmd.BuildConfigFromFlags(
-		conf.MasterUrl,
-		conf.KubernetesConfigPath,
-	)
-
+	client, err := conf.GetClusterClient()
 	if err != nil {
-		Logger.Errorf("main", "build cluster config error")
-		os.Exit(1)
-	}
-
-	client, err := kubernetes.NewForConfig(clusterConfig)
-	if err != nil {
-		Logger.Errorf("main", "that maybe have problem")
+		Logger.Errorf("main", "get cluster client error:%s", err.Error())
 		os.Exit(1)
 	}
 
