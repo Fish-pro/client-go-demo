@@ -33,7 +33,7 @@ func (s *Server) GetServerAddr() string {
 	return fmt.Sprintf("%s:%s", s.Host, s.Port)
 }
 
-func (k *Kube) GetClusterClient() (*kubernetes.Clientset, error) {
+func (k *Kube) New() (*kubernetes.Clientset, error) {
 	clusterConfig, err := clientcmd.BuildConfigFromFlags(
 		k.MasterUrl,
 		k.KubernetesConfigPath,
@@ -73,7 +73,7 @@ func GetConfigFromENV() *ServerConfig {
 				"/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/52.yaml",
 			),
 		},
-		LogLevel: getEnvOrDefault("LOG_LEVEL", "INFO"),
+		LogLevel: getEnvOrDefault("LOG_LEVEL", "DEBUG"),
 	}
 }
 

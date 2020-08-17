@@ -14,7 +14,7 @@ func main() {
 
 	Logger.SetLogLevel(conf.LogLevel)
 
-	client, err := conf.Kube.GetClusterClient()
+	client, err := conf.Kube.New()
 	if err != nil {
 		Logger.Errorf("main", "get cluster client error:%s", err.Error())
 		os.Exit(1)
