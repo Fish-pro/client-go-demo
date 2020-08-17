@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	router := middleware.SetupGin()
+	e := middleware.SetupGin()
 
 	conf := GetConfigFromENV()
 
@@ -20,10 +20,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	Register(router, client)
+	Register(e, client)
 
 	addr := conf.Server.GetServerAddr()
-	err = router.Run(addr)
+	err = e.Run(addr)
 	if err != nil {
 		Logger.Errorf("main", "run server error:%s", err.Error())
 		os.Exit(1)

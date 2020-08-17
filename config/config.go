@@ -77,9 +77,9 @@ func GetConfigFromENV() *ServerConfig {
 	}
 }
 
-func Register(r *gin.Engine, client *kubernetes.Clientset) {
+func Register(e *gin.Engine, client *kubernetes.Clientset) {
 
-	r.GET("/ping", func(c *gin.Context) {
+	e.GET("/ping", func(c *gin.Context) {
 		Logger.Debug(middleware.GetReqId(c), "test debug level")
 		Logger.Debugf(middleware.GetReqId(c), "test debugf level:%s", "hello")
 		Logger.Info(middleware.GetReqId(c), "test debug level")
@@ -91,7 +91,7 @@ func Register(r *gin.Engine, client *kubernetes.Clientset) {
 		c.JSON(200, "pong")
 	})
 
-	v1Router := r.Group("/v1")
+	v1Router := e.Group("/v1")
 
 	// deployment app
 	deployment.DeployRouter(client, v1Router)
