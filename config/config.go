@@ -67,8 +67,11 @@ func GetConfigFromENV() *ServerConfig {
 			Port: getEnvOrDefault("HTTP_PORT", "9090"),
 		},
 		Kube: &Kube{
-			MasterUrl:            getEnvOrDefault("MASTER_URL", "https://10.6.124.52:16443"),
-			KubernetesConfigPath: getEnvOrDefault("CLUSTER_CONFIG_PATH", "/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/52.yaml"),
+			MasterUrl: getEnvOrDefault("MASTER_URL", "https://10.6.124.52:16443"),
+			KubernetesConfigPath: getEnvOrDefault(
+				"CLUSTER_CONFIG_PATH",
+				"/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/52.yaml",
+			),
 		},
 		LogLevel: getEnvOrDefault("LOG_LEVEL", "INFO"),
 	}
