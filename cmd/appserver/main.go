@@ -14,7 +14,7 @@ func main() {
 
 	Logger.SetLogLevel(conf.LogLevel)
 
-	client, err := conf.GetClusterClient()
+	client, err := conf.Kube.GetClusterClient()
 	if err != nil {
 		Logger.Errorf("main", "get cluster client error:%s", err.Error())
 		os.Exit(1)
@@ -22,7 +22,8 @@ func main() {
 
 	Register(router, client)
 
-	err = router.Run(conf.GetServerAddr())
+	addr := conf.Server.GetServerAddr()
+	err = router.Run(addr)
 	if err != nil {
 		Logger.Errorf("main", "run server error:%s", err.Error())
 		os.Exit(1)

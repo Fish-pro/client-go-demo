@@ -14,31 +14,39 @@ import (
 )
 
 type ServerConfig struct {
-	Host                 string
-	Port                 string
-	MasterUrl            string
-	KubernetesConfigPath string
-	LogLevel             string
+	Server   *Server
+	Kube     *Kube
+	LogLevel string
 }
 
-func (s *ServerConfig) GetServerAddr() string {
+type Server struct {
+	Host string
+	Port string
+}
+
+type Kube struct {
+	MasterUrl            string
+	KubernetesConfigPath string
+}
+
+func (s *Server) GetServerAddr() string {
 	return fmt.Sprintf("%s:%s", s.Host, s.Port)
 }
 
-func (s *ServerConfig) GetClusterClient() (*kubernetes.Clientset, error) {
+func (k *Kube) GetClusterClient() (*kubernetes.Clientset, error) {
 	clusterConfig, err := clientcmd.BuildConfigFromFlags(
-		s.MasterUrl,
-		s.KubernetesConfigPath,
+		k.MasterUrl,
+		k.KubernetesConfigPath,
 	)
 
 	if err != nil {
-		Logger.Errorf("cluster", "build cluster config error")
+		Logger.Errorf("main", "build cluster config error")
 		return nil, err
 	}
 
 	client, err := kubernetes.NewForConfig(clusterConfig)
 	if err != nil {
-		Logger.Errorf("cluster", "that maybe have problem")
+		Logger.Errorf("main", "that maybe have problem")
 		return nil, err
 	}
 	return client, nil
@@ -54,11 +62,15 @@ func getEnvOrDefault(key string, def string) string {
 
 func GetConfigFromENV() *ServerConfig {
 	return &ServerConfig{
-		Host:                 getEnvOrDefault("HTTP_HOST", "0.0.0.0"),
-		Port:                 getEnvOrDefault("HTTP_PORT", "9090"),
-		MasterUrl:            getEnvOrDefault("MASTER_URL", "https://10.6.124.52:16443"),
-		KubernetesConfigPath: getEnvOrDefault("CLUSTER_CONFIG_PATH", "/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/52.yaml"),
-		LogLevel:             getEnvOrDefault("LOG_LEVEL", "INFO"),
+		Server: &Server{
+			Host: getEnvOrDefault("HTTP_HOST", "0.0.0.0"),
+			Port: getEnvOrDefault("HTTP_PORT", "9090"),
+		},
+		Kube: &Kube{
+			MasterUrl:            getEnvOrDefault("MASTER_URL", "https://10.6.124.52:16443"),
+			KubernetesConfigPath: getEnvOrDefault("CLUSTER_CONFIG_PATH", "/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/52.yaml"),
+		},
+		LogLevel: getEnvOrDefault("LOG_LEVEL", "INFO"),
 	}
 }
 
