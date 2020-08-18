@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "fc805fe9-6226-476e-8d6a-943b9946b234",
+		"name": "client-go",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "deployment",
+			"item": [
+				{
+					"name": "列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "39efe48d-db1c-48ac-adb7-f331eeb81134",
+								"exec": [
+									"var res = JSON.parse(responseBody);  ",
+									"pm.environment.set(\"deploy_name\", res.items[0].metadata.name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/v1/deployments?namespace=testproject",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"deployments"
+							],
+							"query": [
+								{
+									"key": "namespace",
+									"value": "testproject"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "详情",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/v1/deployments/{{deploy_name}}?namespace=testproject",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"deployments",
+								"{{deploy_name}}"
+							],
+							"query": [
+								{
+									"key": "namespace",
+									"value": "testproject"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "创建",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kind\": \"Deployment\",\n    \"apiVersion\": \"apps/v1\",\n    \"metadata\": {\n        \"name\": \"nginx75-v1\",\n        \"namespace\": \"testproject\",\n        \"selfLink\": \"/apis/apps/v1/namespaces/testproject/deployments/nginx75-v1\",\n        \"uid\": \"4337f1cb-b4c3-4842-88fe-0911d60a3295\",\n        \"resourceVersion\": \"10472991\",\n        \"generation\": 1,\n        \"creationTimestamp\": \"2020-08-03T03:21:44Z\",\n        \"labels\": {\n            \"dsp.daocloud.io/application\": \"74f0b2fb-5c9b-42d1-a62c-f74408f3ca08\"\n        },\n        \"annotations\": {\n            \"deployment.kubernetes.io/revision\": \"1\"\n        }\n    },\n    \"spec\": {\n        \"replicas\": 1,\n        \"selector\": {\n            \"matchLabels\": {\n                \"dsp.daocloud.io/application\": \"74f0b2fb-5c9b-42d1-a62c-f74408f3ca08\"\n            }\n        },\n        \"template\": {\n            \"metadata\": {\n                \"creationTimestamp\": null,\n                \"labels\": {\n                    \"dsp.daocloud.io/application\": \"74f0b2fb-5c9b-42d1-a62c-f74408f3ca08\"\n                }\n            },\n            \"spec\": {\n                \"containers\": [\n                    {\n                        \"name\": \"nginx75-v1\",\n                        \"image\": \"library/nginx:latest\",\n                        \"ports\": [\n                            {\n                                \"containerPort\": 80,\n                                \"protocol\": \"TCP\"\n                            }\n                        ],\n                        \"resources\": {\n                            \"limits\": {\n                                \"cpu\": \"1\",\n                                \"memory\": \"4Gi\"\n                            },\n                            \"requests\": {\n                                \"cpu\": \"1\",\n                                \"memory\": \"4Gi\"\n                            }\n                        },\n                        \"lifecycle\": {\n                            \"preStop\": {\n                                \"exec\": {\n                                    \"command\": [\n                                        \"sleep\",\n                                        \"15\"\n                                    ]\n                                }\n                            }\n                        },\n                        \"terminationMessagePath\": \"/dev/termination-log\",\n                        \"terminationMessagePolicy\": \"File\",\n                        \"imagePullPolicy\": \"IfNotPresent\"\n                    }\n                ],\n                \"restartPolicy\": \"Always\",\n                \"terminationGracePeriodSeconds\": 30,\n                \"dnsPolicy\": \"ClusterFirst\",\n                \"securityContext\": {},\n                \"imagePullSecrets\": [\n                    {\n                        \"name\": \"nginx75-v1\"\n                    }\n                ],\n                \"affinity\": {},\n                \"schedulerName\": \"default-scheduler\"\n            }\n        },\n        \"strategy\": {\n            \"type\": \"RollingUpdate\",\n            \"rollingUpdate\": {\n                \"maxUnavailable\": \"25%\",\n                \"maxSurge\": \"25%\"\n            }\n        },\n        \"revisionHistoryLimit\": 10,\n        \"progressDeadlineSeconds\": 600\n    },\n    \"status\": {\n        \"observedGeneration\": 1,\n        \"replicas\": 1,\n        \"updatedReplicas\": 1,\n        \"readyReplicas\": 1,\n        \"availableReplicas\": 1,\n        \"conditions\": [\n            {\n                \"type\": \"Progressing\",\n                \"status\": \"True\",\n                \"lastUpdateTime\": \"2020-08-03T03:21:48Z\",\n                \"lastTransitionTime\": \"2020-08-03T03:21:44Z\",\n                \"reason\": \"NewReplicaSetAvailable\",\n                \"message\": \"ReplicaSet \\\"nginx75-v1-5dc544cdfc\\\" has successfully progressed.\"\n            },\n            {\n                \"type\": \"Available\",\n                \"status\": \"True\",\n                \"lastUpdateTime\": \"2020-08-12T05:26:10Z\",\n                \"lastTransitionTime\": \"2020-08-12T05:26:10Z\",\n                \"reason\": \"MinimumReplicasAvailable\",\n                \"message\": \"Deployment has minimum availability.\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/v1/deployments/{{deploy_name}}?namespace=testproject",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"deployments",
+								"{{deploy_name}}"
+							],
+							"query": [
+								{
+									"key": "namespace",
+									"value": "testproject"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更新",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kind\": \"Deployment\",\n    \"apiVersion\": \"apps/v1\",\n    \"metadata\": {\n        \"name\": \"nginx75-v1\",\n        \"namespace\": \"testproject\",\n        \"selfLink\": \"/apis/apps/v1/namespaces/testproject/deployments/nginx75-v1\",\n        \"uid\": \"4337f1cb-b4c3-4842-88fe-0911d60a3295\",\n        \"resourceVersion\": \"10472991\",\n        \"generation\": 1,\n        \"creationTimestamp\": \"2020-08-03T03:21:44Z\",\n        \"labels\": {\n            \"dsp.daocloud.io/application\": \"74f0b2fb-5c9b-42d1-a62c-f74408f3ca08\"\n        },\n        \"annotations\": {\n            \"deployment.kubernetes.io/revision\": \"1\"\n        }\n    },\n    \"spec\": {\n        \"replicas\": 1,\n        \"selector\": {\n            \"matchLabels\": {\n                \"dsp.daocloud.io/application\": \"74f0b2fb-5c9b-42d1-a62c-f74408f3ca08\"\n            }\n        },\n        \"template\": {\n            \"metadata\": {\n                \"creationTimestamp\": null,\n                \"labels\": {\n                    \"dsp.daocloud.io/application\": \"74f0b2fb-5c9b-42d1-a62c-f74408f3ca08\"\n                }\n            },\n            \"spec\": {\n                \"containers\": [\n                    {\n                        \"name\": \"nginx75-v1\",\n                        \"image\": \"library/nginx:latest\",\n                        \"ports\": [\n                            {\n                                \"containerPort\": 80,\n                                \"protocol\": \"TCP\"\n                            }\n                        ],\n                        \"resources\": {\n                            \"limits\": {\n                                \"cpu\": \"1\",\n                                \"memory\": \"4Gi\"\n                            },\n                            \"requests\": {\n                                \"cpu\": \"1\",\n                                \"memory\": \"4Gi\"\n                            }\n                        },\n                        \"lifecycle\": {\n                            \"preStop\": {\n                                \"exec\": {\n                                    \"command\": [\n                                        \"sleep\",\n                                        \"15\"\n                                    ]\n                                }\n                            }\n                        },\n                        \"terminationMessagePath\": \"/dev/termination-log\",\n                        \"terminationMessagePolicy\": \"File\",\n                        \"imagePullPolicy\": \"IfNotPresent\"\n                    }\n                ],\n                \"restartPolicy\": \"Always\",\n                \"terminationGracePeriodSeconds\": 30,\n                \"dnsPolicy\": \"ClusterFirst\",\n                \"securityContext\": {},\n                \"imagePullSecrets\": [\n                    {\n                        \"name\": \"nginx75-v1\"\n                    }\n                ],\n                \"affinity\": {},\n                \"schedulerName\": \"default-scheduler\"\n            }\n        },\n        \"strategy\": {\n            \"type\": \"RollingUpdate\",\n            \"rollingUpdate\": {\n                \"maxUnavailable\": \"25%\",\n                \"maxSurge\": \"25%\"\n            }\n        },\n        \"revisionHistoryLimit\": 10,\n        \"progressDeadlineSeconds\": 600\n    },\n    \"status\": {\n        \"observedGeneration\": 1,\n        \"replicas\": 1,\n        \"updatedReplicas\": 1,\n        \"readyReplicas\": 1,\n        \"availableReplicas\": 1,\n        \"conditions\": [\n            {\n                \"type\": \"Progressing\",\n                \"status\": \"True\",\n                \"lastUpdateTime\": \"2020-08-03T03:21:48Z\",\n                \"lastTransitionTime\": \"2020-08-03T03:21:44Z\",\n                \"reason\": \"NewReplicaSetAvailable\",\n                \"message\": \"ReplicaSet \\\"nginx75-v1-5dc544cdfc\\\" has successfully progressed.\"\n            },\n            {\n                \"type\": \"Available\",\n                \"status\": \"True\",\n                \"lastUpdateTime\": \"2020-08-12T05:26:10Z\",\n                \"lastTransitionTime\": \"2020-08-12T05:26:10Z\",\n                \"reason\": \"MinimumReplicasAvailable\",\n                \"message\": \"Deployment has minimum availability.\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/v1/deployments/{{deploy_name}}?namespace=testproject",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"deployments",
+								"{{deploy_name}}"
+							],
+							"query": [
+								{
+									"key": "namespace",
+									"value": "testproject"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/v1/deployments/{{deploy_name}}?namespace=testproject",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"deployments",
+								"{{deploy_name}}"
+							],
+							"query": [
+								{
+									"key": "namespace",
+									"value": "testproject"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "node",
+			"item": [
+				{
+					"name": "列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f6d5b753-5a51-4226-8043-c9c38bdf30ec",
+								"exec": [
+									"var res = JSON.parse(responseBody);  ",
+									"pm.environment.set(\"node_name\", res.items[0].metadata.name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/v1/nodes",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"nodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "详情",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/v1/nodes/{{node_name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"nodes",
+								"{{node_name}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "容器组列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/v1/nodes/{{node_name}}/pods",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"nodes",
+								"{{node_name}}",
+								"pods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "事件列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/v1/nodes/{{node_name}}/events",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"nodes",
+								"{{node_name}}",
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "更新",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kind\": \"Node\",\n    \"apiVersion\": \"apps/v1\",\n    \"metadata\": {\n        \"name\": \"dce-10-6-124-51\",\n        \"selfLink\": \"/api/v1/nodes/dce-10-6-124-51\",\n        \"uid\": \"ebd60497-f7da-4778-9257-40c6b6462553\",\n        \"resourceVersion\": \"10171570\",\n        \"creationTimestamp\": \"2020-07-01T09:55:04Z\",\n        \"labels\": {\n            \"beta.kubernetes.io/arch\": \"amd64\",\n            \"beta.kubernetes.io/os\": \"linux\",\n            \"io.daocloud.dce.dns\": \"\",\n            \"kubernetes.io/arch\": \"amd64\",\n            \"kubernetes.io/hostname\": \"dce-10-6-124-51\",\n            \"kubernetes.io/os\": \"linux\",\n            \"node-role.kubernetes.io/infrastructure\": \"1\",\n            \"node.loadbalancer.dce.daocloud.io/lb01\": \"enabled\"\n        },\n        \"annotations\": {\n            \"node.alpha.kubernetes.io/ttl\": \"0\",\n            \"volumes.kubernetes.io/controller-managed-attach-detach\": \"true\"\n        }\n    },\n    \"spec\": {\n        \"podCIDR\": \"172.30.1.0/24\",\n        \"podCIDRs\": [\n            \"172.30.1.0/24\"\n        ],\n        \"taints\": [\n            {\n                \"key\": \"node.kubernetes.io/unreachable\",\n                \"effect\": \"NoSchedule\",\n                \"timeAdded\": \"2020-08-07T13:39:27Z\"\n            },\n            {\n                \"key\": \"node.kubernetes.io/unreachable01\",\n                \"effect\": \"NoExecute\",\n                \"timeAdded\": \"2020-08-07T15:02:15Z\"\n            },\n            {\n                \"key\": \"node.kubernetes.io/unreachable02\",\n                \"effect\": \"NoSchedule\",\n                \"timeAdded\": \"2020-08-07T15:02:15Z\"\n            }\n        ]\n    },\n    \"status\": {\n        \"capacity\": {\n            \"cpu\": \"16\",\n            \"ephemeral-storage\": \"41918468Ki\",\n            \"hugepages-1Gi\": \"0\",\n            \"hugepages-2Mi\": \"0\",\n            \"memory\": \"32778688Ki\",\n            \"pods\": \"110\"\n        },\n        \"allocatable\": {\n            \"cpu\": \"15500m\",\n            \"ephemeral-storage\": \"38632060045\",\n            \"hugepages-1Gi\": \"0\",\n            \"hugepages-2Mi\": \"0\",\n            \"memory\": \"32152000Ki\",\n            \"pods\": \"110\"\n        },\n        \"conditions\": [\n            {\n                \"type\": \"DCEKubeApiServerProxyNotReady\",\n                \"status\": \"False\",\n                \"lastHeartbeatTime\": \"2020-08-07T13:38:02Z\",\n                \"lastTransitionTime\": \"2020-08-05T10:26:43Z\",\n                \"reason\": \"DCEKubeApiServerProxyReady\",\n                \"message\": \"DCE kube apiserver proxy is posting ready status.\"\n            },\n            {\n                \"type\": \"DCEEngineNotReady\",\n                \"status\": \"Unknown\",\n                \"lastHeartbeatTime\": \"2020-08-07T13:44:25Z\",\n                \"lastTransitionTime\": \"2020-08-07T13:44:25Z\",\n                \"reason\": \"NodeStatusUnknown\",\n                \"message\": \"DCE Engine stopped posting node status.\"\n            },\n            {\n                \"type\": \"TimeNotSynchronized\",\n                \"status\": \"Unknown\",\n                \"lastHeartbeatTime\": \"2020-08-07T13:44:25Z\",\n                \"lastTransitionTime\": \"2020-08-07T13:44:25Z\",\n                \"reason\": \"NodeStatusUnknown\",\n                \"message\": \"DCE Engine stopped posting node status.\"\n            },\n            {\n                \"type\": \"NetworkUnavailable\",\n                \"status\": \"False\",\n                \"lastHeartbeatTime\": \"2020-08-05T10:26:37Z\",\n                \"lastTransitionTime\": \"2020-08-05T10:26:37Z\",\n                \"reason\": \"CalicoIsUp\",\n                \"message\": \"Calico is running on this node\"\n            },\n            {\n                \"type\": \"MemoryPressure\",\n                \"status\": \"Unknown\",\n                \"lastHeartbeatTime\": \"2020-08-07T13:38:41Z\",\n                \"lastTransitionTime\": \"2020-08-07T13:39:27Z\",\n                \"reason\": \"NodeStatusUnknown\",\n                \"message\": \"Kubelet stopped posting node status.\"\n            },\n            {\n                \"type\": \"DiskPressure\",\n                \"status\": \"Unknown\",\n                \"lastHeartbeatTime\": \"2020-08-07T13:38:41Z\",\n                \"lastTransitionTime\": \"2020-08-07T13:39:27Z\",\n                \"reason\": \"NodeStatusUnknown\",\n                \"message\": \"Kubelet stopped posting node status.\"\n            },\n            {\n                \"type\": \"PIDPressure\",\n                \"status\": \"Unknown\",\n                \"lastHeartbeatTime\": \"2020-08-07T13:38:41Z\",\n                \"lastTransitionTime\": \"2020-08-07T13:39:27Z\",\n                \"reason\": \"NodeStatusUnknown\",\n                \"message\": \"Kubelet stopped posting node status.\"\n            },\n            {\n                \"type\": \"Ready\",\n                \"status\": \"Unknown\",\n                \"lastHeartbeatTime\": \"2020-08-07T13:38:41Z\",\n                \"lastTransitionTime\": \"2020-08-07T13:39:27Z\",\n                \"reason\": \"NodeStatusUnknown\",\n                \"message\": \"Kubelet stopped posting node status.\"\n            }\n        ],\n        \"addresses\": [\n            {\n                \"type\": \"InternalIP\",\n                \"address\": \"10.6.124.51\"\n            },\n            {\n                \"type\": \"Hostname\",\n                \"address\": \"dce-10-6-124-51\"\n            }\n        ],\n        \"daemonEndpoints\": {\n            \"kubeletEndpoint\": {\n                \"Port\": 10250\n            }\n        },\n        \"nodeInfo\": {\n            \"machineID\": \"cb593e9dafb34b83afeb3e82a8c9748d\",\n            \"systemUUID\": \"4234FE0D-6E10-0485-E89B-0A51D8BF8FDB\",\n            \"bootID\": \"d3cde3ec-30e5-4015-8ac0-0bbdaba1f4db\",\n            \"kernelVersion\": \"3.10.0-957.el7.x86_64\",\n            \"osImage\": \"CentOS Linux 7 (Core)\",\n            \"containerRuntimeVersion\": \"docker://19.3.8\",\n            \"kubeletVersion\": \"v1.18.0\",\n            \"kubeProxyVersion\": \"v1.18.0\",\n            \"operatingSystem\": \"linux\",\n            \"architecture\": \"amd64\"\n        },\n        \"images\": [\n            {\n                \"names\": [\n                    \"daocloud.io/atsctoo/servicebroker@sha256:d28e7e7ca670907bb901f10612ed065e80a9011d02c97e4f3c606d649c21ed64\",\n                    \"daocloud.io/atsctoo/servicebroker:latest\"\n                ],\n                \"sizeBytes\": 1101919675\n            },\n            {\n                \"names\": [\n                    \"harbor.k8s01.ats/xingyedev/broker@sha256:5041cfcfd6061322cdf7b2b52fb95f28eb0927ee882037ca514b0b189f75e7c9\",\n                    \"harbor.k8s01.ats/xingyedev/broker:dsp-broker-4\"\n                ],\n                \"sizeBytes\": 1099149692\n            },\n            {\n                \"names\": [\n                    \"harbor.k8s01.ats/xingyedev/broker@sha256:2ebd535eb8ac573d3ed5486463d4b81692f853452356771194ee61b86c22141c\",\n                    \"harbor.k8s01.ats/xingyedev/broker:dsp-broker-5\"\n                ],\n                \"sizeBytes\": 1099145202\n            },\n            {\n                \"names\": [\n                    \"daocloud.io/daocloud/dce-monitor-plugin@sha256:361a4767f4bbc658754c357cab790fa3c32e9fc706a14602151cba989b8ebd09\",\n                    \"daocloud.io/daocloud/dce-monitor-plugin:1.2.1\"\n                ],\n                \"sizeBytes\": 735218578\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-parcel-agent@sha256:11b9ebf7aa2852ba53458fe4155b6b9c7fa27442eb68965e89c81396b867cb2e\",\n                    \"10.6.124.67/kube-system/dce-parcel-agent:4.0.1-rc1-32933\"\n                ],\n                \"sizeBytes\": 716221898\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-engine@sha256:f7264318b0c41802b6d680938f4768364ff52b57c4f1f829871f98748c8382d7\",\n                    \"10.6.124.67/kube-system/dce-engine:4.0.1-rc1-32933\"\n                ],\n                \"sizeBytes\": 680765755\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce@sha256:0624271177b439dd8fa9807ec4cee93025137b473c649cf2abe207bdf4e52ca5\",\n                    \"daocloud.io/daocloud/dce@sha256:0624271177b439dd8fa9807ec4cee93025137b473c649cf2abe207bdf4e52ca5\",\n                    \"10.6.124.67/kube-system/dce:4.0.1-rc1-32933\",\n                    \"daocloud.io/daocloud/dce:4.0.1-rc1-32933\"\n                ],\n                \"sizeBytes\": 661722741\n            },\n            {\n                \"names\": [\n                    \"daocloud.io/daocloud/dce-ingress-controller@sha256:5db99576b91beec6ba2d0e4125f42a7f4ec8dde78e2b07643ac03deb8febff4c\",\n                    \"daocloud.io/daocloud/dce-ingress-controller:0.21.0.1\"\n                ],\n                \"sizeBytes\": 568653097\n            },\n            {\n                \"names\": [\n                    \"mysql@sha256:32f9d9a069f7a735e28fd44ea944d53c61f990ba71460c5c183e610854ca4854\",\n                    \"mysql:5.7\"\n                ],\n                \"sizeBytes\": 448102503\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/mysql@sha256:47960a0280616cfab409e46d2891cbd3c98cb6c30ecf4d0821bcb1a18d441d8e\",\n                    \"10.6.124.67/kubernetes-monitoring/mysql:5.7.28\",\n                    \"mysql:5.7.28\"\n                ],\n                \"sizeBytes\": 436607287\n            },\n            {\n                \"names\": [\n                    \"daocloud.io/atsctoo/mysql@sha256:7d69873b6f9891ebe0f549e7bccb6c2a3f9074db7b3569a300e28b4fa5e264b7\",\n                    \"mysql@sha256:c8f03238ca1783d25af320877f063a36dbfce0daa56a7b4955e6c6e05ab5c70b\",\n                    \"daocloud.io/atsctoo/mysql:5.7.14\",\n                    \"mysql:5.7.14\"\n                ],\n                \"sizeBytes\": 384529363\n            },\n            {\n                \"names\": [\n                    \"daocloud.io/atsctoo/kodcloud/kodbox@sha256:3f53b7252e4aa689d2497124711853edc21bbcfaef123da522a31656997c7013\",\n                    \"daocloud.io/atsctoo/kodcloud/kodbox:v1.09\"\n                ],\n                \"sizeBytes\": 382381662\n            },\n            {\n                \"names\": [\n                    \"daocloud.io/atsctoo/broker-mysql@sha256:c1685c5da6ae1690d4086b77e4fdef0ac22e950e55af0013d87791d36025a282\",\n                    \"daocloud.io/atsctoo/broker-mysql:latest\"\n                ],\n                \"sizeBytes\": 371942590\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-dns-plugin@sha256:0a7e6bedae8a012db6aa4dbdb0c52de3e3e6bee27b8f4febd2443efde87dd3d8\",\n                    \"10.6.124.67/kube-system/dce-dns-plugin:0.1.7\"\n                ],\n                \"sizeBytes\": 341090581\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-parcel-calico-node@sha256:220e38a5e6aac279ed0dc0d44e92a27b0dbf10700d2d300c501d2f123459183a\",\n                    \"10.6.124.67/kube-system/dce-parcel-calico-node:v3.13.1\"\n                ],\n                \"sizeBytes\": 259925782\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-kube-apiserver-proxy@sha256:556de3ac80e1161970c16ae132243a5a624108d01413d0ac3af766c41238fc02\",\n                    \"10.6.124.67/kube-system/dce-kube-apiserver-proxy:1.0.1\"\n                ],\n                \"sizeBytes\": 251164044\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/grafana@sha256:bdef6f27255a09deb2f89741b3800a9a394a7e9eefa032570760e5688dd00a2f\",\n                    \"10.6.124.67/kubernetes-monitoring/grafana:6.7.2\",\n                    \"daocloud.io/dc_pokeman/grafana:6.7.2\"\n                ],\n                \"sizeBytes\": 233415254\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-parcel-calico-cni@sha256:0150b4c5cd9b83cdf1b68c45a2c241977d0f91f5da906cf1018047a78ec2128d\",\n                    \"10.6.124.67/kube-system/dce-parcel-calico-cni:v3.13.1\"\n                ],\n                \"sizeBytes\": 206912767\n            },\n            {\n                \"names\": [\n                    \"daocloud.io/daocloud/dce-kube-keepalived-vip@sha256:b7a4073c393f7c82f166a8884507c39ac8f3d2f85a680ea3be05442273d3a77f\",\n                    \"daocloud.io/daocloud/dce-kube-keepalived-vip:0.34.3\"\n                ],\n                \"sizeBytes\": 161333896\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/prometheus@sha256:fec7063177b209eaa3216bab35991924fceb7ba19fe5ce763c3e5cb7e705b586\",\n                    \"10.6.124.67/kubernetes-monitoring/prometheus:v2.17.2\",\n                    \"quay.io/prometheus/prometheus:v2.17.2\"\n                ],\n                \"sizeBytes\": 135379208\n            },\n            {\n                \"names\": [\n                    \"nginx@sha256:0e188877aa60537d1a1c6484b8c3929cfe09988145327ee47e8e91ddf6f76f5c\",\n                    \"nginx:latest\"\n                ],\n                \"sizeBytes\": 132484488\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-kube-proxy@sha256:934fa17b53d0f2b6dcff1d89bc78083b065851061a7e04f0c1ec2a2652fc4c0c\",\n                    \"10.6.124.67/kube-system/dce-kube-proxy:v1.18.0\"\n                ],\n                \"sizeBytes\": 130876276\n            },\n            {\n                \"names\": [\n                    \"bitnami/redis@sha256:19afd2510293c4a65ffd8ae25e2e77ba57e82fde25a399107fd1262b32e3ab0d\",\n                    \"bitnami/redis:4.0.8-r2\"\n                ],\n                \"sizeBytes\": 113070475\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-parcel-calico-pod2daemon-flexvol@sha256:9b269ff696c492502471dd0bd19dfa39b71f42f16d887e7272f7ee5e02439481\",\n                    \"10.6.124.67/kube-system/dce-parcel-calico-pod2daemon-flexvol:v3.13.1\"\n                ],\n                \"sizeBytes\": 111340826\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-dns-node-cache@sha256:10e3fdee1135f62f5ba98daed65592ffcdfc99d641d3e0e8b0e70673f96b4e61\",\n                    \"daocloud.io/daocloud/dce-dns-node-cache@sha256:c632aad40a93fce8b3e0efc8a8ffd56544e9e01bc6dc68fa36da51b5cd986a45\",\n                    \"10.6.124.67/kube-system/dce-dns-node-cache:1.15.13\",\n                    \"daocloud.io/daocloud/dce-dns-node-cache:1.15.13\"\n                ],\n                \"sizeBytes\": 107093136\n            },\n            {\n                \"names\": [\n                    \"redis@sha256:d86d6739fab2eaf590cfa51eccf1e9779677bd2502894579bcf3f80cb37b18d4\",\n                    \"redis:latest\"\n                ],\n                \"sizeBytes\": 104153916\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/dx-athena@sha256:3e5df9fb04590c7ac263b10f9f923990fb028f12ec07467fb07d02a6a2f7f704\",\n                    \"10.6.124.67/kubernetes-monitoring/dx-athena:1.0.3\",\n                    \"registry.dx.io/dx-dev/dx-athena:1.0.3\"\n                ],\n                \"sizeBytes\": 76410211\n            },\n            {\n                \"names\": [\n                    \"quay.io/thanos/thanos@sha256:5ca67a68d8f05f85f63ddaf86e31767145c10353aead3b489ce6eca90cbc9a3e\",\n                    \"quay.io/thanos/thanos:v0.10.1\"\n                ],\n                \"sizeBytes\": 65967064\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/alertmanager@sha256:4e69e9720bfa4fca484177454b9e96863d70e3670cb0ac2292764b6292c8de0b\",\n                    \"10.6.124.67/kubernetes-monitoring/alertmanager:v0.17.0\",\n                    \"quay.io/prometheus/alertmanager:v0.17.0\"\n                ],\n                \"sizeBytes\": 51840054\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-core-dns@sha256:695a5e109604331f843d2c435f488bf3f239a88aec49112d452c1cbf87e88405\",\n                    \"daocloud.io/daocloud/dce-core-dns@sha256:22de1b30c7375d6fcf6e39473eadecf626fa6882a46e1f69531be6d7dedc3a03\",\n                    \"10.6.124.67/kube-system/dce-core-dns:1.6.7\",\n                    \"daocloud.io/daocloud/dce-core-dns:1.6.7\"\n                ],\n                \"sizeBytes\": 43794147\n            },\n            {\n                \"names\": [\n                    \"quay.io/kubernetes-service-catalog/service-catalog@sha256:bd383d7b8e7f36bbebd4800bee6b43b8ecfa75f959dfcd7d272867242195f4e8\",\n                    \"quay.io/kubernetes-service-catalog/service-catalog:v0.3.0\"\n                ],\n                \"sizeBytes\": 42923704\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/prometheus-operator@sha256:51c4b3180aa4cb819ae918da49776dba9a17e11d5a5d1eb22d878e1141aa23c9\",\n                    \"10.6.124.67/kubernetes-monitoring/prometheus-operator:v0.37.0\",\n                    \"quay.io/coreos/prometheus-operator:v0.37.0\"\n                ],\n                \"sizeBytes\": 34904313\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/kube-state-metrics@sha256:29e35850b299db1f6fdb9fdafe99eac494cd7c28fb3c25f5024c8e8f331f2a89\",\n                    \"10.6.124.67/kubernetes-monitoring/kube-state-metrics:v1.9.3\",\n                    \"quay.io/coreos/kube-state-metrics:v1.9.3\"\n                ],\n                \"sizeBytes\": 32818003\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/dx-athena-ui@sha256:d4a9df12667a112693a9e3f8688b01b63cdace418c58547418442f7038031d73\",\n                    \"10.6.124.67/kubernetes-monitoring/dx-athena-ui:1.0.3\",\n                    \"daocloud.io/service_catalog/dx-athena-ui:1.0.3\"\n                ],\n                \"sizeBytes\": 30188656\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/node-exporter@sha256:b630fb29d99b3483c73a2a7db5fc01a967392a3d7ad754c8eccf9f4a67e7ee31\",\n                    \"10.6.124.67/kubernetes-monitoring/node-exporter:v0.18.1\",\n                    \"quay.io/prometheus/node-exporter:v0.18.1\"\n                ],\n                \"sizeBytes\": 22933477\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/dx-athena-dce-plugin@sha256:c31dbe7df3ed4e4c2d984ac2e3c6242675a39ae58d3f569d615ad4c604fadb79\",\n                    \"10.6.124.67/kubernetes-monitoring/dx-athena-dce-plugin:1.0.3\",\n                    \"daocloud.io/service_catalog/dx-athena-dce-plugin:1.0.3\"\n                ],\n                \"sizeBytes\": 17715228\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/prometheus-config-reloader@sha256:5e870e7a99d55a5ccf086063efd3263445a63732bc4c04b05cf8b664f4d0246e\",\n                    \"10.6.124.67/kubernetes-monitoring/prometheus-config-reloader:v0.37.0\",\n                    \"quay.io/coreos/prometheus-config-reloader:v0.37.0\"\n                ],\n                \"sizeBytes\": 10164473\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/daocloud/dao-2048@sha256:b17073c6998b5bc4f7b8aa3ebdc7a031a334975341c85f52a758085e4e647b82\",\n                    \"daocloud.io/daocloud/dao-2048@sha256:c07746fa071c6e47c0877b66acec9ea6edcc407a6fe4c162f03cd112e90b041d\",\n                    \"10.6.124.67/daocloud/dao-2048:latest\",\n                    \"daocloud.io/daocloud/dao-2048:latest\"\n                ],\n                \"sizeBytes\": 7477819\n            },\n            {\n                \"names\": [\n                    \"openshift/hello-openshift@sha256:aaea76ff622d2f8bcb32e538e7b3cd0ef6d291953f3e7c9f556c1ba5baf47e2e\",\n                    \"openshift/hello-openshift:latest\"\n                ],\n                \"sizeBytes\": 6089990\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/configmap-reload@sha256:50c53db55ece9a6e1a7274e497f308bcc24164bdb4c0885524037c1b8e4e758d\",\n                    \"10.6.124.67/kubernetes-monitoring/configmap-reload:v0.0.1\",\n                    \"quay.io/coreos/configmap-reload:v0.0.1\"\n                ],\n                \"sizeBytes\": 4785056\n            },\n            {\n                \"names\": [\n                    \"busybox@sha256:9ddee63a712cea977267342e8750ecbc60d3aab25f04ceacfa795e6fce341793\",\n                    \"busybox:latest\"\n                ],\n                \"sizeBytes\": 1223526\n            },\n            {\n                \"names\": [\n                    \"daocloud.io/daocloud/dce-busybox@sha256:f79f7a10302c402c052973e3fa42be0344ae6453245669783a9e16da3d56d5b4\",\n                    \"daocloud.io/daocloud/dce-busybox:1.30.1\"\n                ],\n                \"sizeBytes\": 1199417\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kubernetes-monitoring/busybox@sha256:e004c2cc521c95383aebb1fb5893719aa7a8eae2e7a71f316a4410784edb00a9\",\n                    \"10.6.124.67/kubernetes-monitoring/busybox:1.29.3\",\n                    \"busybox:1.29.3\"\n                ],\n                \"sizeBytes\": 1154361\n            },\n            {\n                \"names\": [\n                    \"daocloud.io/atsctoo/busybox@sha256:c77a342df99a77947a136951e51a2d8ab2c8d5e0af90b56239f45ffd647a4ecb\",\n                    \"daocloud.io/atsctoo/busybox:1.25.0\"\n                ],\n                \"sizeBytes\": 1092588\n            },\n            {\n                \"names\": [\n                    \"10.6.124.67/kube-system/dce-kube-pause@sha256:fcaff905397ba63fd376d0c3019f1f1cb6e7506131389edbcb3d22719f1ae54d\",\n                    \"10.6.124.67/kube-system/dce-kube-pause:3.1\"\n                ],\n                \"sizeBytes\": 742472\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/v1/nodes/{{node_name}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"v1",
+								"nodes",
+								"{{node_name}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "测试",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/ping",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
