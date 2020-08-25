@@ -3,8 +3,9 @@ package test
 import (
 	"bytes"
 	"client-go-demo/config"
+	"client-go-demo/pkg/middleware"
+	"client-go-demo/pkg/util"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
 	"k8s.io/client-go/kubernetes"
@@ -12,10 +13,6 @@ import (
 	"net/http/httptest"
 	"testing"
 )
-
-func pathPrefix(s string) string {
-	return fmt.Sprintf("/v1/%s", s)
-}
 
 func mockApi(t *testing.T, method, path string, body interface{}) *httptest.ResponseRecorder {
 	var b []byte
@@ -30,24 +27,26 @@ func mockApi(t *testing.T, method, path string, body interface{}) *httptest.Resp
 		require.Nil(t, err)
 	}
 
-	req := httptest.NewRequest(method, pathPrefix(path), bytes.NewReader(b))
+	req := httptest.NewRequest(method, path, bytes.NewReader(b))
 	w := httptest.NewRecorder()
 
 	gin.SetMode(gin.TestMode)
-	mux := gin.Default()
+	engine := middleware.SetupGin()
 	conf, err := clientcmd.BuildConfigFromFlags(
-		"https://10.6.124.52:16443",
-		"/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/52.yaml",
+		"https://10.6.124.55:16443",
+		"/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/55.yaml",
 	)
+
+	util.Logger.SetLogLevel("WARN")
 
 	client, err := kubernetes.NewForConfig(conf)
 	if err != nil {
 		panic("that maybe have problem")
 	}
 
-	config.Register(mux, client)
+	config.Register(engine, client)
 
-	mux.ServeHTTP(w, req)
+	engine.ServeHTTP(w, req)
 
 	require.True(t, w.Code < 400)
 

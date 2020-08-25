@@ -8,13 +8,13 @@ import (
 )
 
 func TestListDeployHandler(t *testing.T) {
-	mockApi(t, http.MethodGet, "deployments", nil)
+	mockApi(t, http.MethodGet, "/v1/deployments", nil)
 }
 
 func TestGetDeployHandler(t *testing.T) {
-	deployName := "nginx75-v1"
+	deployName := "helloworld-qx95m-deployment"
 	q := url.Values{}
-	q.Set("namespace", "testproject")
+	q.Set("namespace", "default")
 
-	mockApi(t, http.MethodGet, fmt.Sprintf("deployments/%s?%s", deployName, q.Encode()), nil)
+	mockApi(t, http.MethodGet, fmt.Sprintf("/v1/deployments/%s?%s", deployName, q.Encode()), nil)
 }

@@ -8,26 +8,26 @@ import (
 )
 
 func TestListServiceHandler(t *testing.T) {
-	mockApi(t, http.MethodGet, "services", nil)
+	mockApi(t, http.MethodGet, "/v1/services", nil)
 }
 
 func TestGetServiceHandler(t *testing.T) {
-	serviceName := "nginx307-v1"
+	serviceName := "helloworld-qx95m-metrics"
 	q := url.Values{}
-	q.Set("namespace", "testproject")
-	mockApi(t, http.MethodGet, fmt.Sprintf("services/%s?%s", serviceName, q.Encode()), nil)
+	q.Set("namespace", "default")
+	mockApi(t, http.MethodGet, fmt.Sprintf("/v1/services/%s?%s", serviceName, q.Encode()), nil)
 }
 
 func TestListEventsOfServiceHandler(t *testing.T) {
-	serviceName := "nginx307-v1"
+	serviceName := "helloworld-qx95m-metrics"
 	q := url.Values{}
-	q.Set("namespace", "testproject")
-	mockApi(t, http.MethodGet, fmt.Sprintf("services/%s/events?%s", serviceName, q.Encode()), nil)
+	q.Set("namespace", "default")
+	mockApi(t, http.MethodGet, fmt.Sprintf("/v1/services/%s/events?%s", serviceName, q.Encode()), nil)
 }
 
 func TestListPodsOfServiceHandler(t *testing.T) {
-	serviceName := "nginx307-v1"
+	serviceName := "helloworld-qx95m-metrics"
 	q := url.Values{}
-	q.Set("namespace", "testproject")
-	mockApi(t, http.MethodGet, fmt.Sprintf("services/%s/pods?%s", serviceName, q.Encode()), nil)
+	q.Set("namespace", "default")
+	mockApi(t, http.MethodGet, fmt.Sprintf("/v1/services/%s/pods?%s", serviceName, q.Encode()), nil)
 }
