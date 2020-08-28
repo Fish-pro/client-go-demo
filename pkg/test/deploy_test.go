@@ -12,7 +12,7 @@ func TestListDeployHandler(t *testing.T) {
 }
 
 func TestGetDeployHandler(t *testing.T) {
-	deployName := "helloworld-qx95m-deployment"
+	deployName := "dao-2048-dao-2048"
 	q := url.Values{}
 	q.Set("namespace", "default")
 

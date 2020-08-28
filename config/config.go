@@ -3,6 +3,7 @@ package config
 import (
 	"client-go-demo/pkg/app/deployment"
 	"client-go-demo/pkg/app/node"
+	"client-go-demo/pkg/app/pod"
 	"client-go-demo/pkg/app/service"
 	"client-go-demo/pkg/middleware"
 	. "client-go-demo/pkg/util"
@@ -101,5 +102,8 @@ func Register(e *gin.Engine, client *kubernetes.Clientset) {
 
 	// service app
 	service.SvcRouter(client, v1Router)
+
+	// pod app
+	pod.PodRouter(client, v1Router)
 
 }

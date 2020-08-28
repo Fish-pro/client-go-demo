@@ -12,21 +12,21 @@ func TestListServiceHandler(t *testing.T) {
 }
 
 func TestGetServiceHandler(t *testing.T) {
-	serviceName := "helloworld-qx95m-metrics"
+	serviceName := "dao-2048-dao-2048-default-95644"
 	q := url.Values{}
 	q.Set("namespace", "default")
 	mockApi(t, http.MethodGet, fmt.Sprintf("/v1/services/%s?%s", serviceName, q.Encode()), nil)
 }
 
 func TestListEventsOfServiceHandler(t *testing.T) {
-	serviceName := "helloworld-qx95m-metrics"
+	serviceName := "dao-2048-dao-2048-default-95644"
 	q := url.Values{}
 	q.Set("namespace", "default")
 	mockApi(t, http.MethodGet, fmt.Sprintf("/v1/services/%s/events?%s", serviceName, q.Encode()), nil)
 }
 
 func TestListPodsOfServiceHandler(t *testing.T) {
-	serviceName := "helloworld-qx95m-metrics"
+	serviceName := "dao-2048-dao-2048-default-95644"
 	q := url.Values{}
 	q.Set("namespace", "default")
 	mockApi(t, http.MethodGet, fmt.Sprintf("/v1/services/%s/pods?%s", serviceName, q.Encode()), nil)

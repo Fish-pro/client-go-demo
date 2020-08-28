@@ -92,12 +92,14 @@ func UpdateServiceHandler(client *kubernetes.Clientset, c *gin.Context) {
 		return
 	}
 	serviceRequest.ResourceVersion = service.ResourceVersion
+
 	updateService, err := client.CoreV1().Services(namespace).Update(serviceRequest)
 	if err != nil {
 		Logger.Errorf(middleware.GetReqId(c), "update service error:%s", err.Error())
 		c.JSON(500, "update service error")
 		return
 	}
+
 	updateService.APIVersion = "v1"
 	updateService.Kind = "Service"
 	c.JSON(200, updateService)
