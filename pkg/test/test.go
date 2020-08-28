@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"client-go-demo/config"
 	"client-go-demo/pkg/middleware"
-	"client-go-demo/pkg/util"
+	. "client-go-demo/pkg/util"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
@@ -37,7 +37,7 @@ func mockApi(t *testing.T, method, path string, body interface{}) *httptest.Resp
 		"/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/55.yaml",
 	)
 
-	util.Logger.SetLogLevel("WARN")
+	Logger.SetLogLevel("INFO")
 
 	client, err := kubernetes.NewForConfig(conf)
 	if err != nil {
@@ -49,8 +49,6 @@ func mockApi(t *testing.T, method, path string, body interface{}) *httptest.Resp
 	engine.ServeHTTP(w, req)
 
 	require.True(t, w.Code < 400)
-
-	// fmt.Println(w)
 
 	return w
 }
