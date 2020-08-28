@@ -1,5 +1,5 @@
 # client-go demo 
-It's a client-go demo by golang, only a single cluster is supported
+It's a `client-go` demo by golang, only a single cluster is supported
 ## get cluster-info
 If you already have a cluster, you can get cluster connection information in the following ways
 ```shell script
