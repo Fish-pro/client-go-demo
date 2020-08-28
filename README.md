@@ -25,8 +25,6 @@ go test -bench=. ./pkg/test
 ```shell script
 ├── Dockerfile
 ├── README.md
-├── api
-├── build
 ├── cmd
 │   └── appserver
 │       └── main.go
@@ -35,7 +33,6 @@ go test -bench=. ./pkg/test
 │   ├── 52.yaml
 │   ├── 55.yaml
 │   └── config.go
-├── deploy
 ├── docs
 │   ├── client-go-demo.postman_collection.json
 │   └── client-go-demo.postman_environment.json
