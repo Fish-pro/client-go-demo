@@ -1,6 +1,7 @@
 package config
 
 import (
+	"client-go-demo/pkg/app/cmd"
 	"client-go-demo/pkg/app/deployment"
 	"client-go-demo/pkg/app/node"
 	"client-go-demo/pkg/app/pod"
@@ -105,5 +106,8 @@ func Register(e *gin.Engine, client *kubernetes.Clientset) {
 
 	// pod app
 	pod.PodRouter(client, v1Router)
+
+	// cmd app
+	cmd.CmdRouter(v1Router)
 
 }
