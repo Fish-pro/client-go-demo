@@ -19,7 +19,7 @@ cat /tmp/config
 ## unit test
 The test only contains GET method
 ```shell script
-go test -bench=. ./pkg/test
+go test ./pkg/test
 ```
 ## struct
 ```shell script
