@@ -25,6 +25,8 @@ type NodeInterface interface {
 	Events(name string) (*v1.EventList, error)
 }
 
+var _ NodeInterface = &Nodes{}
+
 // struct for interface
 type Nodes struct {
 	client *kubernetes.Clientset
