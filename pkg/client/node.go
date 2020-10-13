@@ -25,7 +25,9 @@ type NodeInterface interface {
 	Events(name string) (*v1.EventList, error)
 }
 
-var _ NodeInterface = &Nodes{}
+type NodeInterfaceGetter interface {
+	Nodes() NodeInterface
+}
 
 // struct for interface
 type Nodes struct {
@@ -33,7 +35,7 @@ type Nodes struct {
 }
 
 // new node struct
-func NewNodes(client *kubernetes.Clientset) *Nodes {
+func newNodes(client *kubernetes.Clientset) *Nodes {
 	return &Nodes{client: client}
 }
 
