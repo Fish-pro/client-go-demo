@@ -5,6 +5,7 @@ import (
 	"client-go-demo/pkg/app/deployment"
 	"client-go-demo/pkg/app/node"
 	"client-go-demo/pkg/app/pod"
+	"client-go-demo/pkg/app/pvc"
 	"client-go-demo/pkg/app/service"
 	"client-go-demo/pkg/middleware"
 	. "client-go-demo/pkg/util"
@@ -66,13 +67,13 @@ func GetConfigFromENV() *ServerConfig {
 	return &ServerConfig{
 		Server: &Server{
 			Host: getEnvOrDefault("HTTP_HOST", "0.0.0.0"),
-			Port: getEnvOrDefault("HTTP_PORT", "9090"),
+			Port: getEnvOrDefault("HTTP_PORT", "9001"),
 		},
 		Kube: &Kube{
-			MasterUrl: getEnvOrDefault("MASTER_URL", "https://10.6.124.52:16443"),
+			MasterUrl: getEnvOrDefault("MASTER_URL", "https://10.21.5.30:16443"),
 			KubernetesConfigPath: getEnvOrDefault(
 				"CLUSTER_CONFIG_PATH",
-				"/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/52.yaml",
+				"/Users/york/go/src/github.com/Fish-pro/client-go-demo/config/32.yaml",
 			),
 		},
 		LogLevel: getEnvOrDefault("LOG_LEVEL", "DEBUG"),
@@ -106,6 +107,9 @@ func Register(e *gin.Engine, client *kubernetes.Clientset) {
 
 	// pod app
 	pod.PodRouter(client, v1Router)
+
+	// pvc app
+	pvc.PersistentVolumeClaimRouter(client, v1Router)
 
 	// cmd app
 	cmd.CmdRouter(v1Router)
